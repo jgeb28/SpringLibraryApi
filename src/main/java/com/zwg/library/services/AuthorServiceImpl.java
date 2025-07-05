@@ -32,7 +32,7 @@ public class AuthorServiceImpl implements AuthorService{
     @Override
     public AuthorDto findAuthorById(long authorId) {
         return AuthorMapper.toDto(authorRepository.findById(authorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Author not found: " + authorId)));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found - id: " + authorId)));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class AuthorServiceImpl implements AuthorService{
     @Override
     public AuthorDto updateAuthor(UpdateAuthorDto dto, long authorId) {
         Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Author not found: " + authorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found - id: " + authorId));
         author.setFirstname(dto.firstname());
         author.setLastname(dto.lastname());
 
@@ -54,7 +54,7 @@ public class AuthorServiceImpl implements AuthorService{
     @Override
     public void deleteAuthor(long authorId) {
         if(!authorRepository.existsById(authorId)) {
-            throw new ResourceNotFoundException("Author not found: " + authorId);
+            throw new ResourceNotFoundException("Author not found - id: " + authorId);
         }
         authorRepository.deleteById(authorId);
     }

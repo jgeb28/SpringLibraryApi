@@ -42,17 +42,17 @@ public class BookServiceImpl implements BookService{
     @Override
     public BookDto findBookById(long bookId) {
         return BookMapper.toDto(bookRepository.findById(bookId)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found: " + bookId)));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found - id: " + bookId)));
     }
 
     @Override
     public BookDto createBook(CreateBookDto dto) {
         Author author = authorRepository.findById(dto.authorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Author not found: " + dto.authorId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found - id: " + dto.authorId()));
         Set<Genre> genres = new HashSet<>();
         for(long genreId : dto.genreIds()) {
             genres.add(genreRepository.findById(genreId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Genre not found: " + genreId )));
+                    .orElseThrow(() -> new ResourceNotFoundException("Genre not found - id: " + genreId )));
         }
         Book newBook = BookMapper.toEntity(dto, author, genres);
         return  BookMapper.toDto(bookRepository.save(newBook));
@@ -61,13 +61,13 @@ public class BookServiceImpl implements BookService{
     @Override
     public BookDto updateBook(UpdateBookDto dto, long bookId) {
         Book existingBook = bookRepository.findById(bookId)
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found: " + bookId));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found - id: " + bookId));
         Author author = authorRepository.findById(dto.authorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Author not found: " + dto.authorId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found - id: " + dto.authorId()));
         Set<Genre> genres = new HashSet<>();
         for(long genreId : dto.genreIds()) {
             genres.add(genreRepository.findById(genreId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Genre not found: " + genreId )));
+                    .orElseThrow(() -> new ResourceNotFoundException("Genre not found - id: " + genreId )));
         }
         existingBook.setTitle(dto.title());
         existingBook.setIsbn(dto.isbn());
@@ -81,7 +81,7 @@ public class BookServiceImpl implements BookService{
     @Override
     public void deleteBook(long bookId) {
         if(!bookRepository.existsById(bookId)) {
-            throw new ResourceNotFoundException("Book not found: " + bookId );
+            throw new ResourceNotFoundException("Book not found - id: " + bookId );
         }
         bookRepository.deleteById(bookId);
     }
@@ -89,7 +89,7 @@ public class BookServiceImpl implements BookService{
     @Override
     public List<BookDto> findAllBooksByGenre(long genreId) {
         Genre genre = genreRepository.findById(genreId)
-                .orElseThrow(() -> new ResourceNotFoundException("Genre not found: " + genreId ));
+                .orElseThrow(() -> new ResourceNotFoundException("Genre not found - id: " + genreId ));
 
         return bookRepository.findAll().stream()
                 .filter(b -> b.getGenres().contains(genre))
