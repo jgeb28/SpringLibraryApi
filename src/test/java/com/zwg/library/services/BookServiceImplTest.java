@@ -135,9 +135,9 @@ class BookServiceImplTest {
         Book book1 = new Book(1L, "title", 1000, "1231321321231",author, Set.of(genre) );
         Book book2 = new Book(2L, "title2", 1001, "1231321321232",author, Set.of(genre) );
         Book book3 = new Book(3L, "title3", 1002, "1231321321232",author, Set.of(otherGenre) );
-        Mockito.when(bookRepository.findAll()).thenReturn(List.of(book1,book2,book3));
-        Mockito.when(genreRepository.findById(1L)).thenReturn(Optional.of(genre));
-        Mockito.when(genreRepository.findById(2L)).thenReturn(Optional.of(otherGenre));
+        Mockito.when(bookRepository.findAllByGenres_Id(1L)).thenReturn(List.of(book1,book2));
+        Mockito.when(genreRepository.existsById(1L)).thenReturn(true);
+        Mockito.when(genreRepository.existsById(2L)).thenReturn(true);
         // act
         List<BookDto> result = bookService.findAllBooksByGenre(1L);
         // assert
@@ -234,6 +234,17 @@ class BookServiceImplTest {
         assertThrows(ResourceNotFoundException.class, () -> {
             bookService.createBook(bookDto);
         });
+    }
+
+    @Test
+    void ShouldThrowWhenFindingAllBooksByNotExistingGenre() {
+        // arrange
+        Mockito.when(genreRepository.existsById(1L)).thenReturn(false);
+        // act & assert
+        assertThrows(ResourceNotFoundException.class, () -> {
+            bookService.findAllBooksByGenre(1L);
+        });
+
     }
 
     private void assertBookDtoMatchesBook(BookDto dto, Book book) {

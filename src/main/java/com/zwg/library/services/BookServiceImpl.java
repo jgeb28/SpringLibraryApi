@@ -88,11 +88,12 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookDto> findAllBooksByGenre(long genreId) {
-        Genre genre = genreRepository.findById(genreId)
-                .orElseThrow(() -> new ResourceNotFoundException("Genre not found - id: " + genreId ));
+        if (!genreRepository.existsById(genreId)) {
+            throw new ResourceNotFoundException("Genre not found - id: " + genreId);
+        }
 
-        return bookRepository.findAll().stream()
-                .filter(b -> b.getGenres().contains(genre))
+        return bookRepository.findAllByGenres_Id(genreId)
+                .stream()
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
 
