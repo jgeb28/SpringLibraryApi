@@ -4,7 +4,11 @@ This project is a wholy contenerized monolithic-style Library Management System 
 ---
 
 ## 🚀 Launch Instructions
-
+### Build JAR
+```bash
+ /mvnw clean package -DskipTests  
+```
+> ℹ️ Tests are skipped during build because the `GenreSeeder` requires a database connection, which is only available when the MySQL container is running.
 ### Database
 ```bash
 docker compose up --build
