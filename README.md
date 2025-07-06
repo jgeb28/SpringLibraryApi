@@ -1,7 +1,5 @@
 # 📚 Spring Library API 
-This project is a monolithic-style Library Management System built with **Spring Boot 3**. It includes endpoints to manage books, authors, and genres. The application uses **Spring Data JPA**, **Jakarta Validation**, and **MySQL** for data persistence and validation.
-
-Database is generated as a docker container using docker compose.
+This project is a wholy contenerized monolithic-style Library Management System built with **Spring Boot 3**. It includes endpoints to manage books, authors, and genres. The application uses **Spring Data JPA**, **Jakarta Validation**, and **MySQL** for data persistence and validation.
 
 ---
 
