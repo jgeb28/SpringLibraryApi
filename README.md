@@ -7,12 +7,7 @@ This project is a wholy contenerized monolithic-style Library Management System 
 
 ### Database
 ```bash
-docker compose up
-```
-
-### Application
-```bash
-mvnw spring-boot:run
+docker compose up --build
 ```
 
 ---
