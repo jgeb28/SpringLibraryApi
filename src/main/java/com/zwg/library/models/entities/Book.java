@@ -17,7 +17,7 @@ public class Book {
     private int publicationYear;
     private String isbn;
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "author_id")
     private Author author;
     @ManyToMany
     @JoinTable(
